@@ -1,0 +1,3 @@
+# @package hydra.launcher
+name: ${hydra.job.name}
+timeout_min: 10000

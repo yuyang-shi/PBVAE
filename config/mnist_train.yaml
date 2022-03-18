@@ -1,0 +1,68 @@
+defaults:
+  - launcher: slurm
+  - globals
+  - override hydra/launcher: submitit_slurm
+
+name: mnist_train
+run: 0
+
+resume: null
+test: False
+nosave: False
+prior_init: normal  # normal, zero
+train_prior: True
+init_weights_with_prior: True  # Only works when train_prior is True
+test_weight_std: null
+
+alpha: 1
+beta: 1
+delta: 0.025
+kl_penalty: 0.0001
+p_min: 5e-3
+loss_range: null
+
+latent_dim: 50
+obs_dim: [784]
+
+net_type: MLP
+net_dims: [400,400]
+
+pz_config:
+    type: standard
+    num_components: 500
+    pseudoinputs_std: 0.01
+
+device: cuda
+dataset: mnist
+binarize: False
+validate: null  # True if type not in ["classic", "quad"]
+prior_split: 0.5
+
+train_batch_size: 100
+eval_batch_size: 60000
+test_batch_size: 100
+final_test_batch_size: 20
+
+train_config:
+    prior_std: 0.03
+    max_epochs: 1000
+    lr: 1e-3
+    type: quad  # "beta-vae", "alpha-vae", "classic", "quad"
+    pacbayes: null  # True if type in ["classic", "quad"]
+
+train_prior_config:
+    max_epochs: 500
+    lr: 1e-3
+    dropout_p: 0.3
+    type: beta-vae
+
+eval_config:
+    num_mc_samples: 150000
+    delta_eval: 0.01
+
+test_config:
+    iwae_num_samples: 1000
+
+train_log_freq: 100
+test_freq: 10
+

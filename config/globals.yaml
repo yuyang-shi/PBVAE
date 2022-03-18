@@ -1,0 +1,20 @@
+# @package hydra
+run:
+  # Output directory for normal runs
+#  dir: outputs/${name}/${hydra.job.override_dirname}_run/${run}
+  dir: outputs/${now:%Y-%m-%d_%H-%M-%S}_${name}_run
+sweep:
+  # Output directory for sweep runs
+#  dir: outputs/${name}/${train_config.type}/${hydra.job.override_dirname}_sweep
+  dir: outputs/${now:%Y-%m-%d_%H-%M-%S}_${name}_sweep
+  # subdir: ${run}
+
+job_logging:
+  formatters:
+    simple:
+      format: '[%(levelname)s] - %(message)s'
+  handlers:
+    file:
+      filename: run.log
+  root:
+    handlers: [console, file]
